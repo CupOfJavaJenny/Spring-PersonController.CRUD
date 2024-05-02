@@ -5,8 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
+// Ensure the properties are getting read - Jake
+@PropertySource("classpath:application.properties")
 public class CRUDApplication {
 
 	public static void main(String[] args) {
