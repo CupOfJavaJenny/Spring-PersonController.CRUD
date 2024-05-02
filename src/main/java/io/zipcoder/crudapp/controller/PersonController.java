@@ -35,14 +35,35 @@ public class PersonController {
         return new ResponseEntity<>((personRepository.save(person)),HttpStatus.CREATED);
         //saving the person we received in the person repository and returning that person we just created with a CREATED status 201((code=success!))
     }
-    @PutMapping
-    public Person updatePerson(Person person){
+    @PutMapping("/{id}")//curly braces are a path variable
+    public ResponseEntity<Person> update(@PathVariable Integer id,@RequestBody Person person){
+         //find the person by id
+        Person result = personRepository.findOne(id);
 
-        return person;
+        //if that person is not found /null,create a new person
+        if(result == null){
+            return new ResponseEntity<>(personRepository.save(person), HttpStatus.CREATED);
+        }
+        //if the person was there, then update the properties, return the modified person ontop of the original person with id provided, and give ok
+        result.setFirstName(person.getFirstName());
+        result.setLastName(person.getLastName());
+
+        return new ResponseEntity<>(personRepository.save(result), HttpStatus.OK);
     }
     @GetMapping("/{id}")//(endpoints) the path to make the reading of a person's ID happen
     public ResponseEntity<Person> getPerson(@PathVariable Integer id){
         //returning the ability to go in repository and find one specific id with an OK status 200(code=success!)
         return new ResponseEntity<>(personRepository.findOne(id),HttpStatus.OK);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> destroy(@PathVariable Integer id) {
+        personRepository.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+       /* DELETE /people/{id} - delete the person with id number {id}
+        Response: 204 No Content
+        */
+    }
+
+    ///*RequestMapping defaults to RequestMethod.GET for its verb, but can take any verb supported by HTTP.
+    // The main ones are GET(read), PUT(update), POST(create), and DELETE(destroy/delete).*/
 }
