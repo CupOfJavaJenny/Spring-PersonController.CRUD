@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+//Add the @Entity and @Id annotations to your Person class as shown in the Reference section. These tell Spring how to convert your Person objects to database entities when you pass them to a repository.
 @Entity
 
 
